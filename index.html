@@ -9,6 +9,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- PayPal SDK -->
+    <script src="https://www.paypal.com/sdk/js?client-id=BAAje5m4aDhW0eiBCuiHEu1XLiQuCWYgS47jEvjGkO6nq1D9Y8FlqTIQamuUNt2hsUHmvMcg6Gi7XlhuTE&components=hosted-buttons&disable-funding=venmo&currency=USD"></script>
 </head>
 <body>
     <!-- Navigation -->
@@ -20,6 +22,15 @@
             <button class="nav-cta">Commencer</button>
         </div>
     </nav>
+
+    <!-- PayPal Modal -->
+    <div id="paypal-modal" class="paypal-modal">
+        <div class="paypal-modal-content">
+            <button class="paypal-modal-close">&times;</button>
+            <h3 class="paypal-modal-title">Paiement sécurisé</h3>
+            <div id="paypal-container-3GN7DMEVLEJN8"></div>
+        </div>
+    </div>
 
     <!-- Hero Section -->
     <section class="hero">
@@ -345,12 +356,16 @@
         <div class="container">
             <div class="footer-content">
                 <img src="images/logo.png" alt="AR traduction" class="footer-logo">
-                <p class="footer-text">© 2026 AR traduction. Tous droits réservés.</p>
+                <p class="footer-text">© 2024 AR traduction. Tous droits réservés.</p>
             </div>
         </div>
     </footer>
 
     <script src="script.js"></script>
+    <script>
+        paypal.HostedButtons({
+            hostedButtonId: "3GN7DMEVLEJN8",
+        }).render("#paypal-container-3GN7DMEVLEJN8")
+    </script>
 </body>
-
 </html>
