@@ -9,11 +9,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <!-- PayPal SDK -->
-<script 
-  src="https://www.paypal.com/sdk/js?client-id=BAAje5m4aDhW0eiBCuiHEu1XLiQuCWYgS47jEvjGkO6nq1D9Y8FlqTIQamuUNt2hsUHmvMcg6Gi7XlhuTE&components=hosted-buttons&disable-funding=venmo&currency=USD">
-</script>
-
 </head>
 <body>
     <!-- Navigation -->
@@ -22,8 +17,7 @@
             <a href="#" class="logo">
                 <img src="images/logo.png" alt="AR traduction" class="logo-img">
             </a>
-            <a href="#payment" class="nav-cta">Commencer</a>
-
+            <button class="nav-cta">Commencer</button>
         </div>
     </nav>
 
@@ -357,27 +351,6 @@
     </footer>
 
     <script src="script.js"></script>
-    <!-- Payment Section -->
-<section class="pricing" id="payment">
-    <div class="container">
-        <h2 class="section-title">Commandez votre traduction maintenant</h2>
-        <p class="section-subtitle">
-            Traduction professionnelle à partir de seulement <strong>9$</strong><br>
-            Livraison garantie en 24h
-        </p>
-
-        <div style="margin-top:40px; display:flex; justify-content:center;">
-            <div id="paypal-container-3GN7DMEVLEJN8"></div>
-        </div>
-    </div>
-</section>
-<!-- PayPal Hosted Button -->
-<script>
-  paypal.HostedButtons({
-    hostedButtonId: "3GN7DMEVLEJN8",
-  }).render("#paypal-container-3GN7DMEVLEJN8");
-</script>
-
 </body>
 
 </html>
