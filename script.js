@@ -82,10 +82,42 @@ document.addEventListener('DOMContentLoaded', function() {
         card.style.transition = `opacity 0.5s ease ${index * 0.05}s, transform 0.5s ease ${index * 0.05}s`;
         observer.observe(card);
     });
-});
+    // PayPal Modal functionality
+    const paypalModal = document.getElementById('paypal-modal');
+    const paypalModalClose = document.querySelector('.paypal-modal-close');
+    const navCta = document.querySelector('.nav-cta');
 
-// CTA Button click handler
-document.querySelector('.nav-cta')?.addEventListener('click', () => {
-    // You can add your action here (e.g., open a contact form, redirect to booking page)
-    alert('Contactez-nous pour commencer votre projet de traduction !');
+    // Open PayPal modal when clicking "Commencer"
+    if (navCta && paypalModal) {
+        navCta.addEventListener('click', () => {
+            paypalModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+    }
+
+    // Close modal when clicking X
+    if (paypalModalClose && paypalModal) {
+        paypalModalClose.addEventListener('click', () => {
+            paypalModal.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+    }
+
+    // Close modal when clicking outside
+    if (paypalModal) {
+        paypalModal.addEventListener('click', (e) => {
+            if (e.target === paypalModal) {
+                paypalModal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    }
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && paypalModal && paypalModal.classList.contains('active')) {
+            paypalModal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    });
 });
