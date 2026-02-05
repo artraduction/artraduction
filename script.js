@@ -82,6 +82,7 @@ document.addEventListener('DOMContentLoaded', function() {
         card.style.transition = `opacity 0.5s ease ${index * 0.05}s, transform 0.5s ease ${index * 0.05}s`;
         observer.observe(card);
     });
+
     // PayPal Modal functionality
     const paypalModal = document.getElementById('paypal-modal');
     const paypalModalClose = document.querySelector('.paypal-modal-close');
@@ -120,4 +121,39 @@ document.addEventListener('DOMContentLoaded', function() {
             document.body.style.overflow = '';
         }
     });
+
+    // =========================
+    // Reviews from Google Sheets (Étape 2b)
+    // =========================
+    const publicSpreadsheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTo8UrgdPc-eDniL2GQLj8SXcYKbICoYn1xLqL51hRSnIcTuNzkliy309rLlZTOe_yFtZsgAZAwMAKX/pubhtml';
+
+    function initReviews() {
+        Tabletop.init({
+            key: publicSpreadsheetUrl,
+            simpleSheet: true,
+            callback: showReviews
+        });
+    }
+
+    function showReviews(data) {
+        const container = document.getElementById('reviews-container');
+        if (!container) return;
+        container.innerHTML = ''; // nettoyer
+
+        data.forEach(review => {
+            // review.Author, review.Text, review.Rating
+            const stars = '★'.repeat(review.Rating) + '☆'.repeat(5 - review.Rating);
+            const reviewHTML = `
+                <div class="review-card">
+                    <div class="review-author">${review.Author}</div>
+                    <div class="review-stars">${stars}</div>
+                    <div class="review-text">${review.Text}</div>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', reviewHTML);
+        });
+    }
+
+    // Lancer la récupération après DOM prêt
+    initReviews();
 });
