@@ -329,16 +329,19 @@ h1, h2, h3, h4 {
 }
 
 .icon-check {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--green);
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 28px;
-    height: 28px;
-    background: var(--green);
-    color: var(--white);
-    border-radius: 50%;
-    font-size: 14px;
-    font-weight: 700;
+}
+
+.icon-check img {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
 }
 
 /* Benefits Section */
@@ -631,3 +634,4 @@ h1, h2, h3, h4 {
         font-size: 13px;
     }
 }
+
