@@ -614,6 +614,14 @@ h1, h2, h3, h4 {
         font-size: 28px;
     }
 
+/* Reviews Section */
+.reviews { padding: 80px 0; background: var(--gray-100); }
+.reviews-grid { display: grid; gap: 24px; max-width: 900px; margin: 0 auto; }
+.review-card { background: var(--white); padding: 24px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
+.review-author { font-weight: 700; margin-bottom: 8px; }
+.review-stars { color: var(--gold); margin-bottom: 12px; }
+.review-text { color: var(--gray-700); font-size: 15px; line-height: 1.5; }
+
     .section-title {
         font-size: 28px;
     }
@@ -631,6 +639,7 @@ h1, h2, h3, h4 {
         font-size: 13px;
     }
 }
+
 
 
 
