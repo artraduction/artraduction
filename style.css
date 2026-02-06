@@ -233,9 +233,9 @@ h1, h2, h3, h4 {
 
 .comparison-card {
     padding: 40px;
-    border-radius: 16px;
-    background: var(--white);
-    border: 1px solid var(--gray-200);
+    border-radius: 0;
+    background: transparent;
+    border: none;
 }
 
 .comparison-title {
@@ -243,7 +243,7 @@ h1, h2, h3, h4 {
     font-weight: 700;
     margin-bottom: 32px;
     padding-bottom: 24px;
-    border-bottom: 1px solid var(--gray-300);
+    border-bottom: none;
 }
 
 .comparison-list {
@@ -254,9 +254,10 @@ h1, h2, h3, h4 {
     display: flex;
     align-items: center;
     gap: 16px;
-    padding: 16px 0;
-    border-bottom: 1px solid var(--gray-300);
+    padding: 20px 0;
+    border-bottom: none;
     font-size: 16px;
+    color: var(--gray-600);
 }
 
 .icon-x {
@@ -265,8 +266,8 @@ h1, h2, h3, h4 {
     justify-content: center;
     width: 28px;
     height: 28px;
-    background: var(--red);
-    color: var(--white);
+    background: var(--gray-200);
+    color: var(--gray-500);
     border-radius: 50%;
     font-size: 14px;
     font-weight: 700;
@@ -344,23 +345,23 @@ h1, h2, h3, h4 {
 .package-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 40px 80px;
+    gap: 48px;
     margin-top: 60px;
 }
 
 .package-item {
-    padding: 32px;
-    border-radius: 16px;
+    padding: 0;
+    border-radius: 0;
     background: transparent;
     transition: transform 0.2s ease;
 }
 
 .package-item:nth-child(1) {
-    grid-column: 1;
+    grid-column: auto;
 }
 
 .package-item:nth-child(2) {
-    grid-column: 3;
+    grid-column: auto;
 }
 
 .package-item:hover {
@@ -567,10 +568,6 @@ h1, h2, h3, h4 {
     .package-grid {
         grid-template-columns: repeat(2, 1fr);
     }
-
-    .package-item:nth-child(2) {
-        grid-column: auto;
-    }
 }
 
 @media (max-width: 768px) {
@@ -592,10 +589,6 @@ h1, h2, h3, h4 {
 
     .package-grid {
         grid-template-columns: 1fr;
-    }
-
-    .package-item:nth-child(2) {
-        grid-column: auto;
     }
 
     .services-grid {
