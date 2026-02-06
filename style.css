@@ -336,8 +336,8 @@ h1, h2, h3, h4 {
 }
 
 .icon-check img {
-    width: 28px;
-    height: 28px;
+    width: 33px;
+    height: 33px;
     object-fit: contain;
 }
 
@@ -639,6 +639,7 @@ h1, h2, h3, h4 {
         font-size: 13px;
     }
 }
+
 
 
 
