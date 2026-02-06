@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     faqItems.forEach(item => {
         const question = item.querySelector('.faq-question');
+        
         question.addEventListener('click', () => {
             faqItems.forEach(otherItem => {
                 if (otherItem !== item && otherItem.classList.contains('active')) {
@@ -27,8 +28,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Navbar scroll effect
     const navbar = document.querySelector('.navbar');
+
     window.addEventListener('scroll', () => {
-        if (window.pageYOffset > 100) {
+        const currentScroll = window.pageYOffset;
+        if (currentScroll > 100) {
             navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.08)';
         } else {
             navbar.style.boxShadow = 'none';
@@ -36,7 +39,11 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Intersection Observer for fade-in animations
-    const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -46,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }, observerOptions);
 
-    const animatedSections = document.querySelectorAll('.features, .comparison, .benefits, .package, .services, .pricing, .reviews, .faq');
+    const animatedSections = document.querySelectorAll('.features, .comparison, .benefits, .package, .services, .pricing, .faq');
     animatedSections.forEach(section => {
         section.style.opacity = '0';
         section.style.transform = 'translateY(30px)';
@@ -63,114 +70,94 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // =========================
-    // Reviews from Google Sheets (CSV)
+    // Reviews from Google Sheets
     // =========================
-    initReviews();
-});
-
-function initReviews() {
     const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTo8UrgdPc-eDniL2GQLj8SXcYKbICoYn1xLqL51hRSnIcTuNzkliy309rLlZTOe_yFtZsgAZAwMAKX/pub?output=csv';
 
+    function escapeHTML(str) {
+        const div = document.createElement('div');
+        div.appendChild(document.createTextNode(str));
+        return div.innerHTML;
+    }
+
+    function parseCSVLine(line) {
+        const result = [];
+        let current = '';
+        let inQuotes = false;
+        for (let i = 0; i < line.length; i++) {
+            const char = line[i];
+            if (inQuotes) {
+                if (char === '"' && line[i + 1] === '"') {
+                    current += '"';
+                    i++;
+                } else if (char === '"') {
+                    inQuotes = false;
+                } else {
+                    current += char;
+                }
+            } else {
+                if (char === '"') {
+                    inQuotes = true;
+                } else if (char === ',') {
+                    result.push(current.trim());
+                    current = '';
+                } else {
+                    current += char;
+                }
+            }
+        }
+        result.push(current.trim());
+        return result;
+    }
+
+    function parseCSV(csvText) {
+        const lines = csvText.split('\n').filter(line => line.trim() !== '');
+        if (lines.length < 2) return [];
+        const headers = parseCSVLine(lines[0]);
+        const data = [];
+        for (let i = 1; i < lines.length; i++) {
+            const values = parseCSVLine(lines[i]);
+            const obj = {};
+            headers.forEach((header, index) => {
+                obj[header] = values[index] || '';
+            });
+            data.push(obj);
+        }
+        return data;
+    }
+
+    function showReviews(data) {
+        const container = document.getElementById('reviews-container');
+        if (!container) return;
+        container.innerHTML = '';
+
+        data.forEach(review => {
+            const nom = escapeHTML(review['Nom'] || review['nom'] || '');
+            const avis = escapeHTML(review['Avis'] || review['avis'] || '');
+            const noteRaw = review['Note'] || review['note'] || '0';
+            const note = Math.min(5, Math.max(0, parseInt(noteRaw, 10) || 0));
+            const stars = '★'.repeat(note) + '☆'.repeat(5 - note);
+
+            if (!nom && !avis) return;
+
+            const reviewHTML = `
+                <div class="review-card">
+                    <div class="review-author">${nom}</div>
+                    <div class="review-stars">${stars}</div>
+                    <div class="review-text">${avis}</div>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', reviewHTML);
+        });
+    }
+
     fetch(csvUrl)
-        .then(response => {
-            if (!response.ok) throw new Error('Erreur réseau');
-            return response.text();
-        })
+        .then(response => response.text())
         .then(csvText => {
             const data = parseCSV(csvText);
             showReviews(data);
         })
-        .catch(err => {
-            console.error('Erreur chargement avis:', err);
-            const container = document.getElementById('reviews-container');
-            if (container) {
-                container.innerHTML = '<p style="text-align:center;color:#737373;">Aucun avis pour le moment.</p>';
-            }
+        .catch(error => {
+            console.error('Erreur lors du chargement des avis:', error);
         });
-}
-
-function parseCSV(csv) {
-    const lines = csv.split('\n');
-    if (lines.length < 2) return [];
-
-    const headers = parseCSVLine(lines[0]);
-    const results = [];
-
-    for (let i = 1; i < lines.length; i++) {
-        const line = lines[i].trim();
-        if (line === '') continue;
-        const values = parseCSVLine(line);
-        const obj = {};
-        headers.forEach((header, index) => {
-            obj[header.trim().replace(/^"|"$/g, '')] = values[index] ? values[index].trim().replace(/^"|"$/g, '') : '';
-        });
-        results.push(obj);
-    }
-    return results;
-}
-
-function parseCSVLine(line) {
-    const result = [];
-    let current = '';
-    let inQuotes = false;
-
-    for (let i = 0; i < line.length; i++) {
-        const char = line[i];
-        if (char === '"') {
-            if (inQuotes && i + 1 < line.length && line[i + 1] === '"') {
-                current += '"';
-                i++;
-            } else {
-                inQuotes = !inQuotes;
-            }
-        } else if (char === ',' && !inQuotes) {
-            result.push(current);
-            current = '';
-        } else {
-            current += char;
-        }
-    }
-    result.push(current);
-    return result;
-}
-
-function showReviews(data) {
-    const container = document.getElementById('reviews-container');
-    if (!container) return;
-    container.innerHTML = '';
-
-    if (data.length === 0) {
-        container.innerHTML = '<p style="text-align:center;color:#737373;">Aucun avis pour le moment.</p>';
-        return;
-    }
-
-    data.forEach(review => {
-        const nom = review['Nom'] || 'Anonyme';
-        const avis = review['Avis'] || '';
-        const note = parseInt(review['Note']) || 0;
-        const clampedNote = Math.max(0, Math.min(5, note));
-
-        if (!avis) return; // skip empty reviews
-
-        const stars = '★'.repeat(clampedNote) + '☆'.repeat(5 - clampedNote);
-        const reviewHTML = `
-            <div class="review-card">
-                <div class="review-author">${escapeHTML(nom)}</div>
-                <div class="review-stars">${stars}</div>
-                <div class="review-text">${escapeHTML(avis)}</div>
-            </div>
-        `;
-        container.insertAdjacentHTML('beforeend', reviewHTML);
-    });
-
-    // If all reviews were empty
-    if (container.innerHTML === '') {
-        container.innerHTML = '<p style="text-align:center;color:#737373;">Aucun avis pour le moment.</p>';
-    }
-}
-
-function escapeHTML(str) {
-    const div = document.createElement('div');
-    div.textContent = str;
-    return div.innerHTML;
-}
+});
