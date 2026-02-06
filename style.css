@@ -103,6 +103,7 @@ h1, h2, h3, h4 {
     line-height: 1.1;
     margin-bottom: 24px;
     letter-spacing: -0.02em;
+    color: var(--black);
 }
 
 .hero-subtitle {
@@ -148,7 +149,7 @@ h1, h2, h3, h4 {
 /* Features Section */
 .features {
     padding: 100px 0;
-    background: var(--gray-100);
+    background: var(--white);
 }
 
 .features-content {
@@ -174,6 +175,10 @@ h1, h2, h3, h4 {
 .feature-item {
     padding: 16px 0;
     border-bottom: 1px solid var(--gray-300);
+}
+
+.feature-item-full {
+    grid-column: 1 / -1;
 }
 
 .feature-name {
@@ -208,13 +213,14 @@ h1, h2, h3, h4 {
     font-size: 18px;
     color: var(--gray-500);
     text-align: center;
-    max-width: 700px;
+    max-width: 900px;
     margin: 0 auto 60px;
 }
 
 /* Comparison Section */
 .comparison {
     padding: 100px 0;
+    background: var(--white);
 }
 
 .comparison-grid {
@@ -228,13 +234,16 @@ h1, h2, h3, h4 {
 .comparison-card {
     padding: 40px;
     border-radius: 16px;
-    background: var(--gray-100);
+    background: var(--white);
+    border: 1px solid var(--gray-200);
 }
 
 .comparison-title {
     font-size: 24px;
     font-weight: 700;
     margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--gray-300);
 }
 
 .comparison-list {
@@ -250,10 +259,6 @@ h1, h2, h3, h4 {
     font-size: 16px;
 }
 
-.comparison-list li:last-child {
-    border-bottom: none;
-}
-
 .icon-x {
     display: flex;
     align-items: center;
@@ -265,6 +270,7 @@ h1, h2, h3, h4 {
     border-radius: 50%;
     font-size: 14px;
     font-weight: 700;
+    flex-shrink: 0;
 }
 
 .icon-check {
@@ -275,6 +281,7 @@ h1, h2, h3, h4 {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
 }
 
 .icon-check img {
@@ -286,7 +293,7 @@ h1, h2, h3, h4 {
 /* Benefits Section */
 .benefits {
     padding: 80px 0;
-    background: var(--gray-100);
+    background: var(--white);
 }
 
 .benefits-grid {
@@ -296,7 +303,7 @@ h1, h2, h3, h4 {
 }
 
 .benefit-card {
-    background: var(--white);
+    background: var(--gray-100);
     padding: 32px 24px;
     border-radius: 16px;
     text-align: center;
@@ -331,20 +338,29 @@ h1, h2, h3, h4 {
 /* Package Section */
 .package {
     padding: 100px 0;
+    background: var(--white);
 }
 
 .package-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 32px;
+    gap: 40px 80px;
     margin-top: 60px;
 }
 
 .package-item {
     padding: 32px;
     border-radius: 16px;
-    background: var(--gray-100);
+    background: transparent;
     transition: transform 0.2s ease;
+}
+
+.package-item:nth-child(1) {
+    grid-column: 1;
+}
+
+.package-item:nth-child(2) {
+    grid-column: 3;
 }
 
 .package-item:hover {
@@ -428,7 +444,7 @@ h1, h2, h3, h4 {
     background: var(--white);
     padding: 24px;
     border-radius: 16px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
 .review-author {
@@ -439,7 +455,6 @@ h1, h2, h3, h4 {
 .review-stars {
     color: var(--gold);
     margin-bottom: 12px;
-    font-size: 18px;
 }
 
 .review-text {
@@ -451,7 +466,7 @@ h1, h2, h3, h4 {
 /* FAQ Section */
 .faq {
     padding: 100px 0;
-    background: var(--gray-100);
+    background: var(--white);
 }
 
 .faq-list {
@@ -486,7 +501,7 @@ h1, h2, h3, h4 {
 .faq-icon {
     font-size: 24px;
     font-weight: 300;
-    color: var(--gold);
+    color: var(--black);
     transition: transform 0.3s ease;
 }
 
@@ -552,6 +567,10 @@ h1, h2, h3, h4 {
     .package-grid {
         grid-template-columns: repeat(2, 1fr);
     }
+
+    .package-item:nth-child(2) {
+        grid-column: auto;
+    }
 }
 
 @media (max-width: 768px) {
@@ -575,12 +594,20 @@ h1, h2, h3, h4 {
         grid-template-columns: 1fr;
     }
 
+    .package-item:nth-child(2) {
+        grid-column: auto;
+    }
+
     .services-grid {
         grid-template-columns: 1fr 1fr;
     }
 
     .features-grid {
         grid-template-columns: 1fr;
+    }
+
+    .feature-item-full {
+        grid-column: auto;
     }
 }
 
@@ -610,7 +637,3 @@ h1, h2, h3, h4 {
         font-size: 13px;
     }
 }
-    .hero-line-2 {
-    white-space: nowrap;
-}
-
