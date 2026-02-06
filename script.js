@@ -142,14 +142,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
         data.forEach(review => {
             // review.Author, review.Text, review.Rating
-            const stars = '★'.repeat(review.Rating) + '☆'.repeat(5 - review.Rating);
+            const stars = '★'.repeat(review.Note) + '☆'.repeat(5 - review.Note);
             const reviewHTML = `
-                <div class="review-card">
-                    <div class="review-author">${review.Author}</div>
-                    <div class="review-stars">${stars}</div>
-                    <div class="review-text">${review.Text}</div>
-                </div>
-            `;
+              <div class="review-card">
+                <div class="review-author">${review.Nom}</div>
+                <div class="review-stars">${stars}</div>
+                <div class="review-text">${review.Avis}</div>
+            </div>
+        `;
             container.insertAdjacentHTML('beforeend', reviewHTML);
         });
     }
@@ -157,3 +157,4 @@ document.addEventListener('DOMContentLoaded', function() {
     // Lancer la récupération après DOM prêt
     initReviews();
 });
+
