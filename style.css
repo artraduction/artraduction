@@ -250,9 +250,11 @@ h1, h2, h3, h4 {
     font-size: 16px;
 }
 
-.comparison-list li:last-child {
-    border-bottom: none;
+.comparison-title {
+    border-bottom: 1px solid var(--gray-300);
+    padding-bottom: 24px;
 }
+
 
 .icon-x {
     display: flex;
@@ -610,6 +612,7 @@ h1, h2, h3, h4 {
         font-size: 13px;
     }
 }
+
 
 
 
