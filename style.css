@@ -345,7 +345,7 @@ h1, h2, h3, h4 {
 .package-item {
     padding: 32px;
     border-radius: 16px;
-    background: var(--gray-100);
+    background: var(--white);
     transition: transform 0.2s ease;
 }
 
@@ -612,6 +612,7 @@ h1, h2, h3, h4 {
         font-size: 13px;
     }
 }
+
 
 
 
