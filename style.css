@@ -148,7 +148,7 @@ h1, h2, h3, h4 {
 /* Features Section */
 .features {
     padding: 100px 0;
-    background: var(--gray-100);
+    background: white;
 }
 
 .features-content {
@@ -610,6 +610,7 @@ h1, h2, h3, h4 {
         font-size: 13px;
     }
 }
+
 
 
 
