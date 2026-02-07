@@ -288,7 +288,7 @@ h1, h2, h3, h4 {
 /* Benefits Section */
 .benefits {
     padding: 80px 0;
-    background: var(--gray-100);
+    background: var(--white);
 }
 
 .benefits-grid {
@@ -298,7 +298,7 @@ h1, h2, h3, h4 {
 }
 
 .benefit-card {
-    background: var(--white);
+    background: var(--gray-100);
     padding: 32px 24px;
     border-radius: 16px;
     text-align: center;
@@ -612,6 +612,7 @@ h1, h2, h3, h4 {
         font-size: 13px;
     }
 }
+
 
 
 
