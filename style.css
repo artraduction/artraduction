@@ -98,7 +98,7 @@ h1, h2, h3, h4 {
 }
 
 .hero-title {
-    font-size: clamp(32px, 4vw, 48px);
+    font-size: clamp(1px, 1vw, 1px);
     font-weight: 800;
     line-height: 1.1;
     margin-bottom: 24px;
@@ -610,4 +610,5 @@ h1, h2, h3, h4 {
         font-size: 13px;
     }
 }
+
 
