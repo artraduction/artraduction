@@ -71,17 +71,26 @@ function initContactModal() {
     const fileInput = document.getElementById('attachments');
     const fileHint = document.getElementById('fileHint');
     const submitBtn = document.getElementById('submitBtn');
-    const status = document.getElementById('formStatus');
 
     if (!openBtn || !modal) return;
 
-    const openModal = () => { modal.classList.add('active'); modal.setAttribute('aria-hidden', 'false'); document.body.style.overflow = 'hidden'; };
-    const closeModal = () => { modal.classList.remove('active'); modal.setAttribute('aria-hidden', 'true'); document.body.style.overflow = ''; };
+    const openModal = () => {
+        modal.classList.add('active');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+    };
+    const closeModal = () => {
+        modal.classList.remove('active');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+    };
 
     openBtn.addEventListener('click', openModal);
     closeBtn.addEventListener('click', closeModal);
     modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('active')) closeModal(); });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
+    });
 
     fileInput.addEventListener('change', () => {
         const n = fileInput.files.length;
@@ -90,35 +99,11 @@ function initContactModal() {
             : `${n} fichiers sélectionnés`;
     });
 
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
+    // Envoi natif (pas de fetch AJAX) — nécessaire pour que FormSubmit accepte les pièces jointes.
+    // On désactive le bouton pour éviter les doubles clics.
+    form.addEventListener('submit', () => {
         submitBtn.disabled = true;
         submitBtn.textContent = 'Envoi...';
-        status.textContent = '';
-        status.className = 'form-status';
-
-        try {
-            const res = await fetch(form.action, {
-                method: 'POST',
-                body: new FormData(form),
-                headers: { 'Accept': 'application/json' }
-            });
-            if (res.ok) {
-                status.textContent = '✓ Message envoyé avec succès. Nous vous répondons sous 24h.';
-                status.classList.add('success');
-                form.reset();
-                fileHint.textContent = 'Aucun fichier sélectionné';
-                setTimeout(closeModal, 2500);
-            } else {
-                throw new Error('Échec de l\'envoi');
-            }
-        } catch (err) {
-            status.textContent = '✗ Erreur lors de l\'envoi. Réessayez ou contactez-nous directement.';
-            status.classList.add('error');
-        } finally {
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Envoyer';
-        }
     });
 }
 
