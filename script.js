@@ -64,62 +64,46 @@ document.addEventListener('DOMContentLoaded', function() {
 // Contact Modal + Form
 // =========================
 function initContactModal() {
-    const openBtn = document.getElementById('openContactBtn');
-    const closeBtn = document.getElementById('closeContactBtn');
-    const modal = document.getElementById('contactModal');
-    const form = document.getElementById('contactForm');
-    const fileInput = document.getElementById('attachments');
-    const fileHint = document.getElementById('fileHint');
-    const submitBtn = document.getElementById('submitBtn');
-    const status = document.getElementById('formStatus');
+  const modal = document.getElementById('contactModal');
+  const openBtn = document.querySelector('.btn-commencer, #btnCommencer');
+  const closeBtn = modal?.querySelector('.modal-close');
+  const form = modal?.querySelector('form');
+  const status = modal?.querySelector('.form-status');
+  const fileInput = modal?.querySelector('input[type="file"]');
+  const fileLabel = modal?.querySelector('.file-label-text');
 
-    if (!openBtn || !modal) return;
+  if (!modal || !openBtn || !form) return;
 
-    const openModal = () => { modal.classList.add('active'); modal.setAttribute('aria-hidden', 'false'); document.body.style.overflow = 'hidden'; };
-    const closeModal = () => { modal.classList.remove('active'); modal.setAttribute('aria-hidden', 'true'); document.body.style.overflow = ''; };
+  openBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  });
 
-    openBtn.addEventListener('click', openModal);
-    closeBtn.addEventListener('click', closeModal);
-    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('active')) closeModal(); });
+  const close = () => {
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+  };
+  closeBtn?.addEventListener('click', close);
+  modal.addEventListener('click', (e) => { if (e.target === modal) close(); });
 
-    fileInput.addEventListener('change', () => {
-        const n = fileInput.files.length;
-        fileHint.textContent = n === 0 ? 'Aucun fichier sélectionné'
-            : n === 1 ? fileInput.files[0].name
-            : `${n} fichiers sélectionnés`;
-    });
+  fileInput?.addEventListener('change', () => {
+    if (fileLabel) {
+      fileLabel.textContent = fileInput.files.length
+        ? `${fileInput.files.length} fichier(s) sélectionné(s)`
+        : 'Joindre un fichier';
+    }
+  });
 
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Envoi...';
-        status.textContent = '';
-        status.className = 'form-status';
-
-        try {
-            const res = await fetch(form.action, {
-                method: 'POST',
-                body: new FormData(form),
-                headers: { 'Accept': 'application/json' }
-            });
-            if (res.ok) {
-                status.textContent = '✓ Message envoyé avec succès. Nous vous répondons sous 24h.';
-                status.classList.add('success');
-                form.reset();
-                fileHint.textContent = 'Aucun fichier sélectionné';
-                setTimeout(closeModal, 2500);
-            } else {
-                throw new Error('Échec de l\'envoi');
-            }
-        } catch (err) {
-            status.textContent = '✗ Erreur lors de l\'envoi. Réessayez ou contactez-nous directement.';
-            status.classList.add('error');
-        } finally {
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Envoyer';
-        }
-    });
+  // IMPORTANT : on laisse le formulaire se soumettre nativement
+  // pour que FormSubmit accepte les pièces jointes.
+  // On affiche juste un message pendant la redirection.
+  form.addEventListener('submit', () => {
+    if (status) {
+      status.textContent = 'Envoi en cours...';
+      status.className = 'form-status sending';
+    }
+  });
 }
 
 // =========================
