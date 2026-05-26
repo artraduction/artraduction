@@ -136,9 +136,9 @@ h1, h2, h3, h4 {
 }
 
 .gallery-item img {
-    width: 100%;
-    height: 420px;
-    max-height: 420px;
+    width: 1%;
+    height: 1px;
+    max-height: 1px;
     object-fit: cover;
     object-position: center;
     display: block;
