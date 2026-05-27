@@ -12,6 +12,9 @@
 
     <link rel="icon" type="image/x-icon" href="images/favicon.ico" sizes="48x48">
     <link rel="apple-touch-icon" sizes="180x180" href="images/favicon.ico">
+
+    <!-- TrustBox script (Trustpilot) -->
+    <script type="text/javascript" src="//widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js" async></script>
 </head>
 <body>
     <!-- Navigation -->
@@ -179,13 +182,26 @@
         </div>
     </section>
 
-    <!-- Reviews Section -->
+    <!-- Reviews Section (Trustpilot TrustBox) -->
     <section class="reviews">
         <div class="container">
             <h2 class="section-title">Avis de nos clients</h2>
-            <div id="reviews-container" class="reviews-grid">
-                <p class="reviews-loading" style="text-align:center;color:#737373;">Chargement des avis...</p>
+
+            <!-- TrustBox widget - Carousel -->
+            <div class="trustpilot-widget"
+                 data-locale="fr-FR"
+                 data-template-id="53aa8912dec7e10d38f59f36"
+                 data-businessunit-id="REPLACE_WITH_YOUR_BUSINESS_UNIT_ID"
+                 data-style-height="140px"
+                 data-style-width="100%"
+                 data-theme="light"
+                 data-stars="4,5"
+                 data-review-languages="fr">
+                <a href="https://fr.trustpilot.com/review/ar-traduction.com" target="_blank" rel="noopener">
+                    Voir nos avis sur Trustpilot
+                </a>
             </div>
+            <!-- End TrustBox widget -->
         </div>
     </section>
 
