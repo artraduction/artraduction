@@ -56,7 +56,6 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(card);
     });
 
-    initReviews();
     initContactModal();
 });
 
@@ -107,80 +106,5 @@ function initContactModal() {
     });
 }
 
-// =========================
-// Reviews from Google Sheets (CSV)
-// =========================
-function initReviews() {
-    const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTo8UrgdPc-eDniL2GQLj8SXcYKbICoYn1xLqL51hRSnIcTuNzkliy309rLlZTOe_yFtZsgAZAwMAKX/pub?output=csv';
+// Reviews are now rendered by the Trustpilot TrustBox widget (see index.html).
 
-    fetch(csvUrl)
-        .then(response => { if (!response.ok) throw new Error('Erreur réseau'); return response.text(); })
-        .then(csvText => showReviews(parseCSV(csvText)))
-        .catch(err => {
-            console.error('Erreur chargement avis:', err);
-            const container = document.getElementById('reviews-container');
-            if (container) container.innerHTML = '<p style="text-align:center;color:#737373;">Aucun avis pour le moment.</p>';
-        });
-}
-
-function parseCSV(csv) {
-    const lines = csv.split('\n');
-    if (lines.length < 2) return [];
-    const headers = parseCSVLine(lines[0]);
-    const results = [];
-    for (let i = 1; i < lines.length; i++) {
-        const line = lines[i].trim();
-        if (line === '') continue;
-        const values = parseCSVLine(line);
-        const obj = {};
-        headers.forEach((header, index) => {
-            obj[header.trim().replace(/^"|"$/g, '')] = values[index] ? values[index].trim().replace(/^"|"$/g, '') : '';
-        });
-        results.push(obj);
-    }
-    return results;
-}
-
-function parseCSVLine(line) {
-    const result = [];
-    let current = '', inQuotes = false;
-    for (let i = 0; i < line.length; i++) {
-        const char = line[i];
-        if (char === '"') {
-            if (inQuotes && i + 1 < line.length && line[i + 1] === '"') { current += '"'; i++; }
-            else inQuotes = !inQuotes;
-        } else if (char === ',' && !inQuotes) { result.push(current); current = ''; }
-        else current += char;
-    }
-    result.push(current);
-    return result;
-}
-
-function showReviews(data) {
-    const container = document.getElementById('reviews-container');
-    if (!container) return;
-    container.innerHTML = '';
-    if (data.length === 0) { container.innerHTML = '<p style="text-align:center;color:#737373;">Aucun avis pour le moment.</p>'; return; }
-    data.forEach(review => {
-        const nom = review['Nom'] || 'Anonyme';
-        const avis = review['Avis'] || '';
-        const note = parseInt(review['Note']) || 0;
-        const clampedNote = Math.max(0, Math.min(5, note));
-        if (!avis) return;
-        const stars = '★'.repeat(clampedNote) + '☆'.repeat(5 - clampedNote);
-        container.insertAdjacentHTML('beforeend', `
-            <div class="review-card">
-                <div class="review-author">${escapeHTML(nom)}</div>
-                <div class="review-stars">${stars}</div>
-                <div class="review-text">${escapeHTML(avis)}</div>
-            </div>
-        `);
-    });
-    if (container.innerHTML === '') container.innerHTML = '<p style="text-align:center;color:#737373;">Aucun avis pour le moment.</p>';
-}
-
-function escapeHTML(str) {
-    const div = document.createElement('div');
-    div.textContent = str;
-    return div.innerHTML;
-}
