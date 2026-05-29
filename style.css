@@ -87,7 +87,7 @@ h1, h2, h3, h4 {
 }
 
 .nav-cta:hover {
-    background: var(--gray-800);
+    background: var(--green-light);
     transform: translateY(-1px);
 }
 
