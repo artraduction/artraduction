@@ -833,7 +833,7 @@ h1, h2, h3, h4 {
 }
 
 .featured-review-card .review-stars {
-    color: var(--gold);
+    color: #2F6B57;
     font-size: 22px;
     letter-spacing: 4px;
     margin-bottom: 20px;
