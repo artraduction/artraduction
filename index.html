@@ -13,6 +13,45 @@
     <link rel="icon" type="image/x-icon" href="images/favicon.ico" sizes="48x48">
     <link rel="apple-touch-icon" sizes="180x180" href="images/favicon.ico">
 
+    <style>
+        /* ── CAPTCHA styles ── */
+        .captcha-row {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .captcha-label {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text, #1a1a2e);
+            padding: 2px 0;
+        }
+        .captcha-input {
+            /* inherits .form-input via shared class */
+            max-width: 160px;
+        }
+        /* hide number spinners */
+        .captcha-input::-webkit-outer-spin-button,
+        .captcha-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        .captcha-input[type=number] { -moz-appearance: textfield; }
+
+        .captcha-error {
+            font-size: 0.82rem;
+            color: #e53e3e;
+            min-height: 1.1em;
+            display: block;
+        }
+        /* shake animation on wrong answer */
+        @keyframes captcha-shake {
+            0%,100% { transform: translateX(0); }
+            20%      { transform: translateX(-6px); }
+            40%      { transform: translateX(6px); }
+            60%      { transform: translateX(-4px); }
+            80%      { transform: translateX(4px); }
+        }
+        .captcha-input.shake { animation: captcha-shake .4s ease; }
+    </style>
+
     <!-- TrustBox script (Trustpilot) -->
     <script type="text/javascript" src="//widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js" async></script>
 </head>
@@ -370,6 +409,8 @@
                   enctype="multipart/form-data">
                 <input type="hidden" name="_subject" value="Nouvelle demande — AR traduction">
                 <input type="hidden" name="_captcha" value="false">
+                <!-- Bot trap: hidden timestamp field filled by JS; bots that don't run JS won't set it -->
+                <input type="hidden" name="_form_loaded" id="formLoadedTime" value="">
                 <input type="hidden" name="_template" value="table">
                 <input type="hidden" name="_next" value="https://ar-traduction.com/merci.html">
                 <input type="hidden" name="_autoresponse" value="Merci pour votre message ! Nous avons bien reçu votre demande et vous répondrons sous 24-48h. — L'équipe AR Traduction">
@@ -391,6 +432,13 @@
                     </label>
                     <input class="file-input" type="file" id="attachments" name="attachment" multiple>
                 </div>
+                <!-- Math CAPTCHA -->
+                <div class="form-row captcha-row">
+                    <label class="captcha-label" id="captchaQuestion">Chargement…</label>
+                    <input class="form-input captcha-input" type="number" id="captchaAnswer" placeholder="Votre réponse" autocomplete="off" required>
+                    <span class="captcha-error" id="captchaError"></span>
+                </div>
+
                 <button class="form-submit" type="submit" id="submitBtn">Envoyer</button>
                 <p class="form-status" id="formStatus"></p>
             </form>
@@ -398,5 +446,84 @@
     </div>
 
     <script src="script.js"></script>
+
+    <script>
+    /* ── Anti-bot CAPTCHA ── */
+    (function () {
+        'use strict';
+
+        // 1. Record when the page/modal loaded (bots fill forms instantly)
+        document.getElementById('formLoadedTime').value = Date.now();
+
+        // ── CAPTCHA engine ──────────────────────────────────────────────
+        var ops = [
+            { label: function(a,b){ return a + ' + ' + b + ' = ?'; }, fn: function(a,b){ return a+b; } },
+            { label: function(a,b){ return a + ' − ' + b + ' = ?'; }, fn: function(a,b){ return a-b; } },
+            { label: function(a,b){ return a + ' × ' + b + ' = ?'; }, fn: function(a,b){ return a*b; } }
+        ];
+        var _answer = null;
+
+        function generateCaptcha() {
+            var op  = ops[Math.floor(Math.random() * ops.length)];
+            var a   = Math.floor(Math.random() * 9) + 1;   // 1-9
+            var b   = (op === ops[1])                       // subtraction: ensure b ≤ a
+                        ? Math.floor(Math.random() * a) + 1
+                        : Math.floor(Math.random() * 9) + 1;
+            _answer = op.fn(a, b);
+            document.getElementById('captchaQuestion').textContent =
+                'Vérification anti-robot : ' + op.label(a, b);
+            var input = document.getElementById('captchaAnswer');
+            input.value = '';
+            input.classList.remove('shake');
+            document.getElementById('captchaError').textContent = '';
+        }
+
+        // Generate on first load
+        generateCaptcha();
+
+        // Re-generate each time the modal opens so it's fresh
+        var openBtn = document.getElementById('openContactBtn');
+        if (openBtn) openBtn.addEventListener('click', generateCaptcha);
+        // Also handle any other "open modal" triggers (CTA buttons etc.)
+        document.querySelectorAll('[data-modal-open], .open-modal').forEach(function(el){
+            el.addEventListener('click', generateCaptcha);
+        });
+
+        // ── Form submission guard ───────────────────────────────────────
+        var form = document.getElementById('contactForm');
+        if (form) {
+            form.addEventListener('submit', function (e) {
+
+                var input     = document.getElementById('captchaAnswer');
+                var errorEl   = document.getElementById('captchaError');
+                var userVal   = parseInt(input.value, 10);
+
+                // 2. CAPTCHA check
+                if (isNaN(userVal) || userVal !== _answer) {
+                    e.preventDefault();
+                    errorEl.textContent = 'Réponse incorrecte — réessayez.';
+                    input.classList.remove('shake');
+                    void input.offsetWidth; // force reflow for re-trigger
+                    input.classList.add('shake');
+                    input.focus();
+                    generateCaptcha();      // new question each failed attempt
+                    return;
+                }
+
+                // 3. Time-based check: reject if form submitted < 3 s after load
+                var loadedAt = parseInt(document.getElementById('formLoadedTime').value, 10);
+                var elapsed  = Date.now() - loadedAt;
+                if (elapsed < 3000) {
+                    e.preventDefault();
+                    errorEl.textContent = 'Soumission trop rapide — veuillez réessayer.';
+                    return;
+                }
+
+                // All checks passed — allow native form submission
+                errorEl.textContent = '';
+            });
+        }
+    })();
+    </script>
 </body>
 </html>
