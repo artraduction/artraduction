@@ -445,14 +445,12 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
-
     <script>
-    /* ── Anti-bot CAPTCHA ── */
+    /* ── Anti-bot CAPTCHA ── Registered BEFORE script.js so it fires first on submit */
     (function () {
         'use strict';
 
-        // 1. Record when the page/modal loaded (bots fill forms instantly)
+        // 1. Record when the page loaded (bots fill forms instantly)
         document.getElementById('formLoadedTime').value = Date.now();
 
         // ── CAPTCHA engine ──────────────────────────────────────────────
@@ -464,9 +462,9 @@
         var _answer = null;
 
         function generateCaptcha() {
-            var op  = ops[Math.floor(Math.random() * ops.length)];
-            var a   = Math.floor(Math.random() * 9) + 1;   // 1-9
-            var b   = (op === ops[1])                       // subtraction: ensure b ≤ a
+            var op = ops[Math.floor(Math.random() * ops.length)];
+            var a  = Math.floor(Math.random() * 9) + 1;
+            var b  = (op === ops[1])
                         ? Math.floor(Math.random() * a) + 1
                         : Math.floor(Math.random() * 9) + 1;
             _answer = op.fn(a, b);
@@ -478,52 +476,56 @@
             document.getElementById('captchaError').textContent = '';
         }
 
-        // Generate on first load
         generateCaptcha();
 
-        // Re-generate each time the modal opens so it's fresh
+        // Re-generate each time the modal opens
         var openBtn = document.getElementById('openContactBtn');
         if (openBtn) openBtn.addEventListener('click', generateCaptcha);
-        // Also handle any other "open modal" triggers (CTA buttons etc.)
-        document.querySelectorAll('[data-modal-open], .open-modal').forEach(function(el){
-            el.addEventListener('click', generateCaptcha);
-        });
 
         // ── Form submission guard ───────────────────────────────────────
+        // Using capture:true so this fires before script.js's bubble-phase listener
         var form = document.getElementById('contactForm');
         if (form) {
             form.addEventListener('submit', function (e) {
-
+                var submitBtn = document.getElementById('submitBtn');
                 var input     = document.getElementById('captchaAnswer');
                 var errorEl   = document.getElementById('captchaError');
                 var userVal   = parseInt(input.value, 10);
 
-                // 2. CAPTCHA check
+                // CAPTCHA check
                 if (isNaN(userVal) || userVal !== _answer) {
                     e.preventDefault();
+                    e.stopImmediatePropagation(); // prevent script.js listener from running
                     errorEl.textContent = 'Réponse incorrecte — réessayez.';
                     input.classList.remove('shake');
-                    void input.offsetWidth; // force reflow for re-trigger
+                    void input.offsetWidth;
                     input.classList.add('shake');
+                    // Reset button in case script.js already mutated it
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Envoyer';
                     input.focus();
-                    generateCaptcha();      // new question each failed attempt
+                    generateCaptcha();
                     return;
                 }
 
-                // 3. Time-based check: reject if form submitted < 3 s after load
+                // Time-based check
                 var loadedAt = parseInt(document.getElementById('formLoadedTime').value, 10);
-                var elapsed  = Date.now() - loadedAt;
-                if (elapsed < 3000) {
+                if (Date.now() - loadedAt < 3000) {
                     e.preventDefault();
+                    e.stopImmediatePropagation();
                     errorEl.textContent = 'Soumission trop rapide — veuillez réessayer.';
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Envoyer';
                     return;
                 }
 
-                // All checks passed — allow native form submission
+                // All checks passed — script.js listener runs normally
                 errorEl.textContent = '';
-            });
+            }, true); // <-- capture phase: runs before script.js
         }
     })();
     </script>
+
+    <script src="script.js"></script>
 </body>
 </html>
