@@ -55,29 +55,26 @@
         .hero-gallery {
             margin-top: 3rem;
             width: 100%;
+            padding: 8px 0 20px;
         }
         .hero-gallery-track {
             display: grid;
             grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 20px;
+            gap: 16px;
             width: 100%;
-            box-sizing: border-box;
-            padding: 8px 0 16px;
         }
         .hero-gallery-card {
             width: 100%;
-            aspect-ratio: 583 / 900;
-            border-radius: 28px;
+            aspect-ratio: 9 / 14;
+            border-radius: 24px;
             overflow: hidden;
-            box-sizing: border-box;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.13);
-            position: relative;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.14);
         }
         .hero-gallery-card img {
-            position: absolute;
-            top: 0;
+            width: 100%;
             height: 100%;
-            width: auto;
+            object-fit: cover;
+            object-position: center;
             display: block;
         }
         @media (max-width: 700px) {
@@ -115,47 +112,18 @@
                 Traduction profesionnelle du <strong>français vers l'arabe </strong>réalisée par des <strong>natifs</strong>. Pas d'IA juste une traduction <strong>rapide</strong>, parfaitement réalisée.
             </p>
             <div class="hero-gallery">
-                <div class="hero-gallery-track" id="galleryTrack">
-                    <div class="hero-gallery-card" id="card0"></div>
-                    <div class="hero-gallery-card" id="card1"></div>
-                    <div class="hero-gallery-card" id="card2"></div>
+                <div class="hero-gallery-track">
+                    <div class="hero-gallery-card">
+                        <img src="images/gallery-1.png" alt="FL Studio — traduction arabe">
+                    </div>
+                    <div class="hero-gallery-card">
+                        <img src="images/gallery-2.png" alt="Exemple de traduction arabe native">
+                    </div>
+                    <div class="hero-gallery-card">
+                        <img src="images/gallery-3.png" alt="Bakugan Arena — traduction arabe">
+                    </div>
                 </div>
             </div>
-            <script>
-            (function(){
-                var SRC = 'images/gallery.png';
-                var IMG_W = 1748, IMG_H = 900;
-                var PANELS = 3;
-                var panelW = IMG_W / PANELS;
-
-                function buildCards() {
-                    for (var i = 0; i < PANELS; i++) {
-                        var card = document.getElementById('card' + i);
-                        var cardH = card.offsetHeight;
-                        var scale = cardH / IMG_H;
-                        var scaledW = IMG_W * scale;
-                        var offset = -(panelW * i * scale);
-
-                        var img = card.querySelector('img') || document.createElement('img');
-                        img.src = SRC;
-                        img.alt = ['FL Studio','Traduction arabe','Bakugan Arena'][i];
-                        img.style.cssText = 'position:absolute;top:0;left:' + offset + 'px;height:100%;width:' + scaledW + 'px;display:block;';
-                        if (!card.querySelector('img')) card.appendChild(img);
-                    }
-                }
-
-                function init() {
-                    buildCards();
-                    window.addEventListener('resize', buildCards);
-                }
-
-                if (document.readyState === 'loading') {
-                    document.addEventListener('DOMContentLoaded', init);
-                } else {
-                    init();
-                }
-            })();
-            </script>
         </div>
     </section>
 
