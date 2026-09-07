@@ -50,6 +50,21 @@
             80%      { transform: translateX(4px); }
         }
         .captcha-input.shake { animation: captcha-shake .4s ease; }
+
+        /* ── Hero gallery image ── */
+        .hero-gallery {
+            margin-top: 2.5rem;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+        .hero-gallery-img {
+            width: 100%;
+            max-width: 900px;
+            border-radius: 16px;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.12);
+            display: block;
+        }
     </style>
 
     <!-- TrustBox script (Trustpilot) -->
@@ -81,6 +96,9 @@
             <p class="hero-subtitle">
                 Traduction profesionnelle du <strong>français vers l'arabe </strong>réalisée par des <strong>natifs</strong>. Pas d'IA juste une traduction <strong>rapide</strong>, parfaitement réalisée.
             </p>
+            <div class="hero-gallery">
+                <img src="images/gallery.png" alt="Exemples de traductions réalisées" class="hero-gallery-img">
+            </div>
         </div>
     </section>
 
