@@ -51,19 +51,46 @@
         }
         .captcha-input.shake { animation: captcha-shake .4s ease; }
 
-        /* ── Hero gallery image ── */
+        /* ── Hero gallery — Softriver style ── */
         .hero-gallery {
-            margin-top: 2.5rem;
-            width: 100%;
-            display: flex;
-            justify-content: center;
+            margin-top: 3rem;
+            width: 100vw;
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
+            overflow: hidden;
         }
-        .hero-gallery-img {
-            width: 100%;
-            max-width: 900px;
+        .hero-gallery-track {
+            display: flex;
+            gap: 12px;
+            padding: 0 40px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            cursor: grab;
+        }
+        .hero-gallery-track::-webkit-scrollbar { display: none; }
+        .hero-gallery-track.grabbing { cursor: grabbing; }
+        .hero-gallery-card {
+            flex: 0 0 auto;
+            width: 320px;
+            height: 420px;
             border-radius: 16px;
-            box-shadow: 0 8px 40px rgba(0,0,0,0.12);
+            overflow: hidden;
+            scroll-snap-align: start;
+        }
+        .hero-gallery-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
             display: block;
+            pointer-events: none;
+            user-select: none;
+        }
+        @media (max-width: 600px) {
+            .hero-gallery-card { width: 260px; height: 340px; }
+            .hero-gallery-track { padding: 0 20px; }
         }
     </style>
 
@@ -97,8 +124,43 @@
                 Traduction profesionnelle du <strong>français vers l'arabe </strong>réalisée par des <strong>natifs</strong>. Pas d'IA juste une traduction <strong>rapide</strong>, parfaitement réalisée.
             </p>
             <div class="hero-gallery">
-                <img src="images/gallery.png" alt="Exemples de traductions réalisées" class="hero-gallery-img">
+                <div class="hero-gallery-track" id="galleryTrack">
+                    <div class="hero-gallery-card">
+                        <img src="images/gallery.png" alt="Exemple de traduction 1" draggable="false">
+                    </div>
+                    <div class="hero-gallery-card">
+                        <img src="images/gallery.png" alt="Exemple de traduction 2" draggable="false">
+                    </div>
+                    <div class="hero-gallery-card">
+                        <img src="images/gallery.png" alt="Exemple de traduction 3" draggable="false">
+                    </div>
+                    <div class="hero-gallery-card">
+                        <img src="images/gallery.png" alt="Exemple de traduction 4" draggable="false">
+                    </div>
+                </div>
             </div>
+            <script>
+            (function(){
+                var track = document.getElementById('galleryTrack');
+                if(!track) return;
+                var isDown = false, startX, scrollLeft;
+                track.addEventListener('mousedown', function(e){
+                    isDown = true;
+                    track.classList.add('grabbing');
+                    startX = e.pageX - track.offsetLeft;
+                    scrollLeft = track.scrollLeft;
+                });
+                track.addEventListener('mouseleave', function(){ isDown = false; track.classList.remove('grabbing'); });
+                track.addEventListener('mouseup', function(){ isDown = false; track.classList.remove('grabbing'); });
+                track.addEventListener('mousemove', function(e){
+                    if(!isDown) return;
+                    e.preventDefault();
+                    var x = e.pageX - track.offsetLeft;
+                    var walk = (x - startX) * 1.5;
+                    track.scrollLeft = scrollLeft - walk;
+                });
+            })();
+            </script>
         </div>
     </section>
 
