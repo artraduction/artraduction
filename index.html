@@ -54,13 +54,17 @@
         /* ── Hero gallery — Softriver style ── */
         .hero-gallery {
             margin-top: 3rem;
-            width: 100%;
-            padding: 8px 0 20px;
+            width: 100vw;
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 40px 24px;
+            box-sizing: border-box;
         }
         .hero-gallery-track {
             display: grid;
             grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 16px;
+            gap: 20px;
             width: 100%;
         }
         .hero-gallery-card {
@@ -69,15 +73,20 @@
             border-radius: 24px;
             overflow: hidden;
             box-shadow: 0 8px 40px rgba(0,0,0,0.14);
+            background: #000;
         }
         .hero-gallery-card img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
             object-position: center;
             display: block;
         }
+        .hero-gallery-card.cover img {
+            object-fit: cover;
+        }
         @media (max-width: 700px) {
+            .hero-gallery { padding: 10px 16px 24px; }
             .hero-gallery-track { grid-template-columns: 1fr; }
         }
     </style>
@@ -113,13 +122,13 @@
             </p>
             <div class="hero-gallery">
                 <div class="hero-gallery-track">
-                    <div class="hero-gallery-card">
+                    <div class="hero-gallery-card cover">
                         <img src="images/gallery-1.png" alt="FL Studio — traduction arabe">
                     </div>
                     <div class="hero-gallery-card">
                         <img src="images/gallery-2.png" alt="Exemple de traduction arabe native">
                     </div>
-                    <div class="hero-gallery-card">
+                    <div class="hero-gallery-card cover">
                         <img src="images/gallery-3.png" alt="Bakugan Arena — traduction arabe">
                     </div>
                 </div>
