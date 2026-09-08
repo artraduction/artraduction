@@ -54,13 +54,9 @@
         /* ── Hero gallery — Softriver style ── */
         .hero-gallery {
             margin-top: 3rem;
-            width: 100vw;
-            position: relative;
-            left: 50%;
-            transform: translateX(-50%);
+            width: 100%;
             padding: 0;
             box-sizing: border-box;
-            overflow: hidden;
         }
         .hero-gallery-track {
             display: grid;
@@ -80,9 +76,9 @@
         }
         .hero-gallery-card:nth-child(2) {
             border-radius: 20px;
-            z-index: 1;
             position: relative;
-            box-shadow: -8px 0 16px rgba(0,0,0,0.15), 8px 0 16px rgba(0,0,0,0.15);
+            z-index: 1;
+            box-shadow: -10px 0 0 10px white, 10px 0 0 10px white;
         }
         .hero-gallery-card:last-child {
             border-radius: 20px 0 0 20px;
@@ -95,7 +91,6 @@
             display: block;
         }
         @media (max-width: 700px) {
-            .hero-gallery { padding: 10px 0 0; }
             .hero-gallery-track { grid-template-columns: 1fr; }
         }
     </style>
