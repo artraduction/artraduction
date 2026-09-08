@@ -54,25 +54,22 @@
         /* ── Hero gallery — Softriver style ── */
         .hero-gallery {
             margin-top: 3rem;
-            width: 100vw;
-            position: relative;
-            left: 50%;
-            transform: translateX(-50%);
-            padding: 10px 24px 24px;
+            width: 100%;
+            padding: 10px 0 0;
             box-sizing: border-box;
         }
         .hero-gallery-track {
             display: grid;
             grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 16px;
+            gap: 0;
             width: 100%;
         }
         .hero-gallery-card {
             width: 100%;
             aspect-ratio: 4 / 5;
-            border-radius: 20px;
+            border-radius: 0;
             overflow: hidden;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+            box-shadow: none;
         }
         .hero-gallery-card img {
             width: 100%;
@@ -82,7 +79,7 @@
             display: block;
         }
         @media (max-width: 700px) {
-            .hero-gallery { padding: 10px 16px 24px; }
+            .hero-gallery { padding: 10px 0 0; }
             .hero-gallery-track { grid-template-columns: 1fr; }
         }
     </style>
@@ -116,17 +113,17 @@
             <p class="hero-subtitle">
                 Traduction profesionnelle du <strong>français vers l'arabe </strong>réalisée par des <strong>natifs</strong>. Pas d'IA juste une traduction <strong>rapide</strong>, parfaitement réalisée.
             </p>
-            <div class="hero-gallery">
-                <div class="hero-gallery-track">
-                    <div class="hero-gallery-card" style="background:#2d2d2d;">
-                        <img src="images/gallery-1.png" alt="FL Studio — traduction arabe" style="object-fit:cover; object-position: center 40%;">
-                    </div>
-                    <div class="hero-gallery-card" style="background:#fff;">
-                        <img src="images/gallery-2.png" alt="Exemple de traduction arabe native" style="object-fit:contain; object-position:center top;">
-                    </div>
-                    <div class="hero-gallery-card" style="background:#000;">
-                        <img src="images/gallery-3.png" alt="Bakugan Arena — traduction arabe" style="object-fit:cover; object-position: center 40%;">
-                    </div>
+        </div>
+        <div class="hero-gallery">
+            <div class="hero-gallery-track">
+                <div class="hero-gallery-card" style="background:#2d2d2d;">
+                    <img src="images/gallery-1.png" alt="FL Studio — traduction arabe" style="object-fit:cover; object-position: center 40%;">
+                </div>
+                <div class="hero-gallery-card" style="background:#fff;">
+                    <img src="images/gallery-2.png" alt="Exemple de traduction arabe native" style="object-fit:contain; object-position:center top;">
+                </div>
+                <div class="hero-gallery-card" style="background:#000;">
+                    <img src="images/gallery-3.png" alt="Bakugan Arena — traduction arabe" style="object-fit:cover; object-position: center 40%;">
                 </div>
             </div>
         </div>
