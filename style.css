@@ -355,20 +355,22 @@ h1, h2, h3, h4 {
 }
 
 .package-item {
-    padding: 32px;
-    border-radius: 16px;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--gray-200);
     background: var(--white);
-    transition: transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 24px;
 }
 
-.package-item:hover {
-    transform: translateY(-4px);
+.package-item:last-child {
+    border-bottom: none;
 }
 
 .package-icon {
-    width: 64px;
-    height: 64px;
-    margin-bottom: 20px;
+    flex-shrink: 0;
+    width: 56px;
+    height: 56px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -378,15 +380,16 @@ h1, h2, h3, h4 {
 }
 
 .package-item h4 {
-    font-size: 18px;
+    font-size: 17px;
     font-weight: 700;
-    margin-bottom: 12px;
+    margin-bottom: 4px;
 }
 
 .package-item p {
     font-size: 14px;
     color: var(--gray-500);
-    line-height: 1.6;
+    line-height: 1.5;
+    margin: 0;
 }
 
 /* Services Section */
