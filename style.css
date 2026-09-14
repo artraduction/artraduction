@@ -916,11 +916,12 @@ h1, h2, h3, h4 {
 
 .process-step {
     background: transparent;
-    padding: 32px 0;
+    padding: 48px 0;
     border-bottom: 1px solid var(--gray-200);
     display: flex;
-    align-items: center;
-    gap: 40px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
     text-align: left;
 }
 
@@ -959,8 +960,7 @@ h1, h2, h3, h4 {
 }
 
 .process-step-image {
-    flex: 0 0 280px;
-    max-width: 280px;
+    width: 100%;
     border-radius: 12px;
     overflow: hidden;
     background: transparent;
@@ -979,17 +979,7 @@ h1, h2, h3, h4 {
     line-height: 1.6;
 }
 
-@media (max-width: 768px) {
-    .process-step {
-        flex-direction: column;
-        text-align: center;
-    }
-    .process-step-image {
-        flex: unset;
-        max-width: 100%;
-        width: 100%;
-    }
-}
+
 
 /* Footer contact email */
 .footer-contact {
