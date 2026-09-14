@@ -469,9 +469,16 @@ h1, h2, h3, h4 {
     background: var(--white);
 }
 
+.faq .section-title {
+    text-align: left;
+    margin-bottom: 48px;
+}
+
 .faq-list {
-    max-width: 800px;
-    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 48px;
+    max-width: 100%;
 }
 
 .faq-item {
@@ -592,6 +599,10 @@ h1, h2, h3, h4 {
 
     .services-grid {
         grid-template-columns: 1fr 1fr;
+    }
+
+    .faq-list {
+        grid-template-columns: 1fr;
     }
 
     .features-content {
