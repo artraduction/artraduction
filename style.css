@@ -160,9 +160,18 @@ h1, h2, h3, h4 {
 
 .features-content {
     display: flex;
-    flex-direction: column;
-    gap: 48px;
-    align-items: stretch;
+    flex-direction: row;
+    gap: 64px;
+    align-items: center;
+}
+
+.features-text {
+    flex: 1;
+}
+
+.features-image {
+    flex: 0 0 420px;
+    max-width: 420px;
 }
 
 .features-title {
@@ -585,6 +594,16 @@ h1, h2, h3, h4 {
 
     .services-grid {
         grid-template-columns: 1fr 1fr;
+    }
+
+    .features-content {
+        flex-direction: column;
+    }
+
+    .features-image {
+        flex: unset;
+        max-width: 100%;
+        width: 100%;
     }
 
     .features-grid {
