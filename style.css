@@ -951,6 +951,7 @@ h1, h2, h3, h4 {
     font-weight: 600;
     color: var(--black);
     margin-bottom: 16px;
+    align-self: flex-start;
 }
 
 .process-step-dot {
