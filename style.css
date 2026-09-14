@@ -172,6 +172,16 @@ h1, h2, h3, h4 {
 .features-image {
     flex: 0 0 420px;
     max-width: 420px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.features-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
 }
 
 .features-title {
@@ -196,19 +206,6 @@ h1, h2, h3, h4 {
     font-size: 15px;
     font-weight: 500;
     color: var(--black);
-}
-
-.features-image {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.features-image img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 16px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
 }
 
 /* Section Titles */
