@@ -355,23 +355,20 @@ h1, h2, h3, h4 {
 }
 
 .package-item {
-    padding: 40px 0;
-    border-bottom: 1px solid var(--gray-200);
+    padding: 32px;
+    border-radius: 16px;
     background: var(--white);
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
+    transition: transform 0.2s ease;
 }
 
-.package-item:last-child {
-    border-bottom: none;
+.package-item:hover {
+    transform: translateY(-4px);
 }
 
 .package-icon {
-    flex-shrink: 0;
-    width: 56px;
-    height: 56px;
+    width: 64px;
+    height: 64px;
+    margin-bottom: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -381,9 +378,9 @@ h1, h2, h3, h4 {
 }
 
 .package-item h4 {
-    font-size: 17px;
+    font-size: 18px;
     font-weight: 700;
-    margin-bottom: 4px;
+    margin-bottom: 12px;
 }
 
 .package-item p {
