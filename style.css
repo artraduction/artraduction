@@ -917,10 +917,10 @@ h1, h2, h3, h4 {
     padding: 48px 0;
     border-bottom: 1px solid var(--gray-200);
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    gap: 20px;
-    text-align: center;
+    gap: 56px;
+    text-align: left;
 }
 
 .process-step:last-child {
@@ -951,21 +951,21 @@ h1, h2, h3, h4 {
 }
 
 .process-step-title {
-    font-size: 18px;
+    font-size: 24px;
     font-weight: 700;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
     color: var(--black);
-    text-align: center;
-    width: 100%;
 }
 
 .process-step-text {
-    text-align: center;
-    width: 100%;
+    font-size: 15px;
+    color: var(--gray-600);
+    line-height: 1.7;
 }
 
 .process-step-image {
-    width: 100%;
+    flex: 0 0 460px;
+    max-width: 460px;
     border-radius: 12px;
     overflow: hidden;
     background: transparent;
@@ -986,7 +986,16 @@ h1, h2, h3, h4 {
 
 
 
-/* Footer contact email */
+@media (max-width: 768px) {
+    .process-step {
+        flex-direction: column;
+    }
+    .process-step-image {
+        flex: unset;
+        max-width: 100%;
+        width: 100%;
+    }
+}
 .footer-contact {
     font-size: 14px;
     color: var(--black);
