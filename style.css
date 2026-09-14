@@ -920,9 +920,9 @@ h1, h2, h3, h4 {
     border-bottom: 1px solid var(--gray-200);
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     gap: 20px;
-    text-align: left;
+    text-align: center;
 }
 
 .process-step:last-child {
